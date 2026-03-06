@@ -8,6 +8,17 @@ type FetchProductsPageParams = {
   signal?: AbortSignal
 }
 
+export type DeleteProductParams = {
+  id: number
+  signal?: AbortSignal
+}
+
+export type DeleteProductResponse = {
+  id: number
+  isDeleted: boolean
+  deletedOn?: string
+}
+
 export async function fetchProductsPage({
   limit,
   skip,
@@ -27,4 +38,20 @@ export async function fetchProductsPage({
   }
 
   return (await response.json()) as ProductsResponse
+}
+
+export async function deleteProduct({
+  id,
+  signal,
+}: DeleteProductParams): Promise<DeleteProductResponse> {
+  const response = await fetch(`${PRODUCTS_ENDPOINT}/${id}`, {
+    method: 'DELETE',
+    signal,
+  })
+
+  if (!response.ok) {
+    throw new Error(`Failed to delete product (${response.status})`)
+  }
+
+  return (await response.json()) as DeleteProductResponse
 }

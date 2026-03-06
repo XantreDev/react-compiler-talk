@@ -7,6 +7,7 @@ import {
 import { ProductsPage } from './routes/ProductsPage'
 import { RootLayout } from './routes/RootLayout'
 import { SettingsPage } from './routes/SettingsPage'
+import { HoistingPage } from './routes/HoistingPage'
 
 const rootRoute = createRootRoute({
   component: RootLayout,
@@ -32,7 +33,18 @@ const settingsRoute = createRoute({
   component: SettingsPage,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, productsRoute, settingsRoute])
+const hoistingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/hoisting',
+  component: HoistingPage
+})
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  productsRoute,
+  settingsRoute,
+  hoistingRoute
+])
 
 export const router = createRouter({
   routeTree,

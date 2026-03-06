@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useMutationState } from '@tanstack/react-query'
 import { useDeleteProduct, useInfiniteProducts } from '../hooks/useInfiniteProducts'
 
 export function ProductsPage() {
@@ -15,6 +16,10 @@ export function ProductsPage() {
   } = useInfiniteProducts()
 
   const deleteProductMutation = useDeleteProduct()
+  const deletingProductIds = useMutationState<number | undefined>({
+    filters: { mutationKey: ['delete-product'], status: 'pending' },
+    select: (mutation) => (mutation.state.variables as { id: number } | undefined)?.id,
+  }).filter((id): id is number => typeof id === 'number')
 
   useEffect(() => {
     const sentinel = sentinelRef.current
@@ -51,6 +56,23 @@ export function ProductsPage() {
         </p>
       </header>
 
+      {deleteProductMutation.isError ? (
+        <section className="mb-6 rounded-lg border border-red-500/50 bg-red-950/40 p-4 text-red-100">
+          <p className="text-sm">
+            {deleteProductMutation.error instanceof Error
+              ? deleteProductMutation.error.message
+              : 'Failed to delete product'}
+          </p>
+          <button
+            type="button"
+            onClick={() => deleteProductMutation.reset()}
+            className="mt-3 rounded-md bg-red-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-400"
+          >
+            Dismiss
+          </button>
+        </section>
+      ) : null}
+
       {isPending && products.length === 0 ? (
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, index) => (
@@ -65,6 +87,10 @@ export function ProductsPage() {
       {products.length > 0 ? (
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
+            (() => {
+              const isDeleting = deletingProductIds.includes(product.id)
+
+              return (
             <article
               key={product.id}
               className="overflow-hidden rounded-xl border border-slate-700 bg-slate-900/60 shadow-sm"
@@ -79,9 +105,21 @@ export function ProductsPage() {
                 <p className="text-xs uppercase tracking-wide text-slate-400">{product.category}</p>
                 <h2 className="line-clamp-1 text-lg font-medium text-slate-100">{product.title}</h2>
                 <p className="line-clamp-2 text-sm text-slate-300">{product.description}</p>
-                <p className="text-base font-semibold text-emerald-300">${product.price}</p>
+                <div className="flex items-center justify-between gap-3 pt-1">
+                  <p className="text-base font-semibold text-emerald-300">${product.price}</p>
+                  <button
+                    type="button"
+                    onClick={() => deleteProductMutation.mutate({ id: product.id })}
+                    disabled={isDeleting}
+                    className="rounded-md bg-red-500 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-red-400 disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    {isDeleting ? 'Deleting...' : 'Delete'}
+                  </button>
+                </div>
               </div>
             </article>
+              )
+            })()
           ))}
         </section>
       ) : null}
