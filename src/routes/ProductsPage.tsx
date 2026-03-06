@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
-import { useInfiniteProducts } from './hooks/useInfiniteProducts'
+import { useDeleteProduct, useInfiniteProducts } from '../hooks/useInfiniteProducts'
 
-function App() {
+export function ProductsPage() {
   const sentinelRef = useRef<HTMLDivElement | null>(null)
   const {
     products,
@@ -13,6 +13,8 @@ function App() {
     fetchNextPage,
     refetch,
   } = useInfiniteProducts()
+
+  const deleteProductMutation = useDeleteProduct()
 
   useEffect(() => {
     const sentinel = sentinelRef.current
@@ -39,7 +41,7 @@ function App() {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage])
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 md:px-8">
+    <section>
       <header className="mb-8">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-100 md:text-4xl">
           Products
@@ -110,8 +112,6 @@ function App() {
       ) : null}
 
       <div ref={sentinelRef} className="h-10 w-full" aria-hidden="true" />
-    </main>
+    </section>
   )
 }
-
-export default App
