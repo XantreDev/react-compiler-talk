@@ -79,7 +79,7 @@ const useData = () => {
 	};
 };
 
-const ObjectReadDeopt = () => {
+const ConditionalObjectReadDeopt = () => {
 	const data = useData();
 
 	return (
@@ -100,7 +100,58 @@ const ObjectReadDeopt = () => {
 	);
 };
 
-const ObjectRead = () => {
+const ObjectReadDeopt = (props: {
+	button: string[];
+	onClick(title: string): void;
+}) => {
+	const onClick = (title: string) => {
+		if (title !== "none") {
+			props.onClick(title);
+		}
+	};
+
+	return (
+		<>
+			{props.button.map((it) => (
+				<button
+					onClick={() => {
+						onClick(it);
+					}}
+				>
+					{it}
+				</button>
+			))}
+		</>
+	);
+};
+
+const ObjectRead = (props: {
+	button: string[];
+	onClick(title: string): void;
+}) => {
+	const onClick = (title: string) => {
+		const click = props.onClick;
+		if (title !== "none") {
+			click(title);
+		}
+	};
+
+	return (
+		<>
+			{props.button.map((it) => (
+				<button
+					onClick={() => {
+						onClick(it);
+					}}
+				>
+					{it}
+				</button>
+			))}
+		</>
+	);
+};
+
+const ConditionalObjectRead = () => {
 	const { retry, isLoading, isFailed, data } = useData();
 
 	return (
