@@ -7,6 +7,7 @@ import {
 import { ProductsPage } from "./routes/ProductsPage";
 import { RootLayout } from "./routes/RootLayout";
 import { SettingsPage } from "./routes/SettingsPage";
+import { SlowPage } from "./routes/SlowPage";
 
 const rootRoute = createRootRoute({
 	component: RootLayout,
@@ -26,6 +27,12 @@ const productsRoute = createRoute({
 	component: ProductsPage,
 });
 
+const slowRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/slow",
+	component: SlowPage,
+});
+
 const settingsRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/settings",
@@ -36,6 +43,7 @@ const routeTree = rootRoute.addChildren([
 	indexRoute,
 	productsRoute,
 	settingsRoute,
+	slowRoute,
 ]);
 
 export const router = createRouter({

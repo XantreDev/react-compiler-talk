@@ -34,6 +34,19 @@ export function RootLayout() {
 				>
 					Settings
 				</Link>
+
+				<Link
+					to="/slow"
+					className={tabBaseClass}
+					activeProps={{
+						className: `${tabBaseClass} bg-slate-100 text-slate-900`,
+					}}
+					inactiveProps={{
+						className: `${tabBaseClass} text-slate-300 hover:bg-slate-800 hover:text-slate-100`,
+					}}
+				>
+					Slow
+				</Link>
 			</nav>
 
 			<Outlet />
