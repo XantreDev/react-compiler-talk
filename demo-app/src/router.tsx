@@ -9,6 +9,7 @@ import { RootLayout } from "./routes/RootLayout";
 import { SettingsPage } from "./routes/SettingsPage";
 import { SlowPage2 } from "./routes/SlowPage2";
 import { SlowPage } from "./routes/SlowPage";
+import { TinderProductsPage } from "./routes/TinderProductsPage";
 
 const rootRoute = createRootRoute({
 	component: RootLayout,
@@ -26,6 +27,12 @@ const productsRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/products",
 	component: ProductsPage,
+});
+
+const tinderProductsRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/tinder-products",
+	component: TinderProductsPage,
 });
 
 const slowRoute = createRoute({
@@ -49,6 +56,7 @@ const settingsRoute = createRoute({
 const routeTree = rootRoute.addChildren([
 	indexRoute,
 	productsRoute,
+	tinderProductsRoute,
 	settingsRoute,
 	slowRoute,
 	slowRoute2,

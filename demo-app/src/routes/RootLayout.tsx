@@ -12,6 +12,7 @@ const routes = [
 	route("Slow", "/slow"),
 	route("Slow2", "/slow2"),
 	route("Products", "/products"),
+	route("Tinder Products", "/tinder-products"),
 	route("Settings", "/settings"),
 ];
 
