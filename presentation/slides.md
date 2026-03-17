@@ -151,6 +151,147 @@ TODO: add image
 
 ### Пре оптимизация
 
+````md magic-move
+```ts
+const ALLOW_MULT = true;
+const MULT = 4;
+
+const coolFunc = (value: number) => {
+	const str = "cool";
+	const mult = str.length * MULT;
+
+	const _ = str + 10;
+
+	let repeats: number;
+
+	if (ALLOW_MULT) {
+		repeats = value * mult;
+	} else {
+		let res = 0;
+		for (let i = 0; i < mult; ++i) {
+			res += value;
+		}
+		repeats = res;
+	}
+
+	return repeats;
+};
+```
+```ts
+const MULT = 4;
+
+const coolFunc = (value: number) => {
+	const str = "cool";
+	const mult = str.length * MULT;
+
+	const _ = str + 10;
+
+	let repeats: number;
+
+	if (true) {
+		repeats = value * mult;
+	} else {
+		let res = 0;
+		for (let i = 0; i < mult; ++i) {
+			res += value;
+		}
+		repeats = res;
+	}
+
+	return repeats;
+};
+```
+```ts
+const MULT = 4;
+
+const coolFunc = (value: number) => {
+	const str = "cool";
+	const mult = str.length * MULT;
+
+	const _ = str + 10;
+
+	let repeats: number;
+
+	repeats = value * mult;
+
+	return repeats;
+};
+```
+```ts
+const coolFunc = (value: number) => {
+	const str = "cool";
+	const mult = str.length * 4;
+
+	const _ = str + 10;
+
+	let repeats: number;
+
+	repeats = value * mult;
+
+	return repeats;
+};
+```
+```ts
+const coolFunc = (value: number) => {
+	const mult = "cool".length * 4;
+
+	const _ = str + 10;
+
+	let repeats: number;
+
+	repeats = value * mult;
+
+	return repeats;
+};
+```
+```ts
+const coolFunc = (value: number) => {
+	const mult = 4 * 4;
+
+	const _ = str + 10;
+
+	let repeats: number;
+
+	repeats = value * mult;
+
+	return repeats;
+};
+```
+```ts
+const coolFunc = (value: number) => {
+	const mult = 16;
+
+	const _ = str + 10;
+
+	let repeats: number;
+
+	repeats = value * mult;
+
+	return repeats;
+};
+```
+```ts
+const coolFunc = (value: number) => {
+	const _ = str + 10;
+
+	let repeats: number;
+
+	repeats = value * 16;
+
+	return repeats;
+};
+```
+```ts
+const coolFunc = (value: number) => {
+	let repeats: number;
+
+	repeats = value * 16;
+
+	return repeats;
+};
+```
+````
+
 ---
 
 <Progress step="3" total="6" />
