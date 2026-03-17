@@ -33,7 +33,7 @@ class: "flex flex-col"
 
 ### Что с деньгами?
 
-TODO: video
+<video src="/check-compiler.mp4" loop class="mt-2 h-55dvh mx-auto" autoPlay muted />
 
 ---
 
