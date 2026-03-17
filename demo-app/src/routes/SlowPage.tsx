@@ -1,4 +1,4 @@
-import { useReducer, useRef, useState } from "react";
+import { useCallback, useReducer, useRef, useState } from "react";
 
 const waitMS = (ms: number) => {
 	const now = performance.now();
@@ -21,7 +21,7 @@ const useMutation = () => {
 		get loading() {
 			return statusRef.current === "pending";
 		},
-		mutate: async () => {
+		mutate: useCallback(async () => {
 			if (statusRef.current === "pending")
 				throw new Error("concurrent exeception");
 			try {
@@ -36,7 +36,7 @@ const useMutation = () => {
 				bump();
 				throw err;
 			}
-		},
+		}, []),
 	};
 };
 
@@ -45,7 +45,7 @@ const SlowComponent = (props: { onClick(): void }) => {
 
 	return (
 		<button type="button" className="btn" onClick={props.onClick}>
-			slow increment
+			slow update
 		</button>
 	);
 };
@@ -69,6 +69,16 @@ export const SlowPage = () => {
 			<div>is loading: {String(mutation.loading)}</div>
 
 			<div className="flex gap-2">
+				<button
+					type="button"
+					className="btn"
+					onClick={() => {
+						setCounter((it) => it + 1);
+					}}
+				>
+					fast increment
+				</button>
+
 				<SlowComponent onClick={onClick} />
 			</div>
 		</div>
