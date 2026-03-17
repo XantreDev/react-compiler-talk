@@ -7,6 +7,30 @@ const MAX_VISIBLE_CARDS = 3;
 
 type SwipeDirection = -1 | 1;
 
+interface ThumbProps {
+	title: string;
+	src: string;
+}
+
+const waitMS = (ms: number) => {
+	const now = performance.now();
+	while (performance.now() - now < ms) {}
+};
+const costlyCalculaiton = (props: ThumbProps) => {
+	waitMS(40);
+
+	return props.src;
+};
+
+const Thumbnail = (props: { title: string; src: string }) => (
+	<img
+		src={costlyCalculaiton(props)}
+		alt={props.title}
+		className="h-72 w-full rounded-2xl object-cover"
+		draggable={false}
+	/>
+);
+
 export function TinderProductsPage() {
 	const { products, isPending, isError, error, refetch } = useSwipeProducts();
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -167,63 +191,55 @@ export function TinderProductsPage() {
 						{visibleCards
 							.slice()
 							.reverse()
-								.map((product, reverseIndex) => {
-									const index = visibleCards.length - 1 - reverseIndex;
-									const isTopCard = index === 0;
-									const depth = Math.min(index, 2);
-									const dragProgress = Math.min(
-										Math.abs(dragX) / SWIPE_THRESHOLD,
-										1,
-									);
+							.map((product, reverseIndex) => {
+								const index = visibleCards.length - 1 - reverseIndex;
+								const isTopCard = index === 0;
+								const depth = Math.min(index, 2);
+								const dragProgress = Math.min(
+									Math.abs(dragX) / SWIPE_THRESHOLD,
+									1,
+								);
 
-									const x = isTopCard
-										? isAnimatingOut
-											? animateX
-											: dragX
-										: 0;
-									const rotate = isTopCard ? x / 24 : 0;
-									const scale = isTopCard ? 1 : 1 - depth * 0.04;
-									const y = depth * 10;
-									const opacity = isTopCard
-										? isAnimatingOut
-											? 0
-											: 1 - dragProgress * 0.45
-										: 1 - depth * 0.15;
+								const x = isTopCard ? (isAnimatingOut ? animateX : dragX) : 0;
+								const rotate = isTopCard ? x / 24 : 0;
+								const scale = isTopCard ? 1 : 1 - depth * 0.04;
+								const y = depth * 10;
+								const opacity = isTopCard
+									? isAnimatingOut
+										? 0
+										: 1 - dragProgress * 0.45
+									: 1 - depth * 0.15;
 
-									return (
-										<article
+								return (
+									<article
 										key={product.id}
 										onPointerDown={isTopCard ? handlePointerDown : undefined}
 										onPointerMove={isTopCard ? handlePointerMove : undefined}
 										onPointerUp={isTopCard ? handlePointerUp : undefined}
-										onPointerCancel={isTopCard ? handlePointerCancel : undefined}
+										onPointerCancel={
+											isTopCard ? handlePointerCancel : undefined
+										}
 										onTransitionEnd={
 											isTopCard ? handleTopCardTransitionEnd : undefined
 										}
-											className={`absolute inset-0 overflow-hidden rounded-3xl border border-slate-700 bg-slate-900/80 p-3 shadow-2xl ${
-												isTopCard ? "cursor-grab active:cursor-grabbing" : ""
-											} ${isTopCard ? "backdrop-blur-md" : ""} ${
-												isDragging
-													? ""
-													: "transition-[transform,opacity] duration-300 ease-out"
-											}`}
-											style={{
-												transform: `translate3d(${x}px, ${y}px, 0) rotate(${rotate}deg) scale(${scale})`,
-												opacity,
-												zIndex: 100 - depth,
-											}}
-										>
-											{product.thumbnail ? (
-												<img
-													src={product.thumbnail}
-													alt={product.title}
-													className="h-72 w-full rounded-2xl object-cover"
-													draggable={false}
-												/>
-											) : (
-												<div className="h-72 w-full rounded-2xl bg-slate-800" />
-											)}
-											<div className="space-y-3 px-2 pb-2 pt-4">
+										className={`absolute starting:opacity-0 inset-0 overflow-hidden rounded-3xl border border-slate-700 bg-slate-900/80 p-3 shadow-2xl ${
+											isTopCard ? "cursor-grab active:cursor-grabbing" : ""
+										} backdrop-blur-md transition-[transform,opacity] duration-300 ease-out`}
+										style={{
+											transform: `translate3d(${x}px, ${y}px, 0) rotate(${rotate}deg) scale(${scale})`,
+											opacity,
+											zIndex: 100 - depth,
+										}}
+									>
+										{product.thumbnail ? (
+											<Thumbnail
+												src={product.thumbnail}
+												title={product.title}
+											/>
+										) : (
+											<div className="h-72 w-full rounded-2xl bg-slate-800" />
+										)}
+										<div className="space-y-3 px-2 pb-2 pt-4">
 											<p className="text-xs uppercase tracking-wide text-slate-400">
 												{product.category}
 											</p>
@@ -244,7 +260,9 @@ export function TinderProductsPage() {
 
 					{isExhausted ? (
 						<section className="mt-6 rounded-lg border border-slate-700 bg-slate-900/70 p-4 text-center">
-							<p className="text-sm text-slate-300">No more products to swipe.</p>
+							<p className="text-sm text-slate-300">
+								No more products to swipe.
+							</p>
 							<button
 								type="button"
 								onClick={() => {
