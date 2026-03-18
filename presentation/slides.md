@@ -2,10 +2,7 @@
 theme: default
 title: Искусство ухода за React Compiler
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
-
-  Learn more at [Sli.dev](https://sli.dev)
+  ## Разбираемся, как работает React Compiler, чтобы генерить быстрый код
 # apply UnoCSS classes to the current slide
 class: text-center
 # https://sli.dev/features/drawing
@@ -13,13 +10,14 @@ drawings:
   persist: false
 # slide transition: https://sli.dev/guide/animations.html#slide-transitions
 transition: slide-left
+layout: statement
 # enable Comark Syntax: https://comark.dev/syntax/markdown
 comark: true
 # duration of the presentation
 duration: 35min
 ---
 
-### Искусство ухода за React Compiler
+## Искусство ухода за React Compiler
 
 ---
 class: "flex flex-col"
@@ -36,6 +34,22 @@ class: "flex flex-col"
 <video src="/check-compiler.mp4" loop class="mt-2 h-55dvh mx-auto" autoPlay muted />
 
 ---
+
+### Во что React compiler компилирует?
+
+<!-- https://playground.react.dev/#N4Igzg9grgTgxgUxALhAgHgBwjALgAgBMEAzAQygBsCSoA7OXASwjvwFkBPAQU0wAoAlPmAAdNvjiswBANpT6uBDAA0+MAlwBhaHSUwAuvgC8+KBoDKuMkv4AGQePH58MTbDYAeQkwBu+Vi1KJjgAa2NgIRMAPnVNHUVlfiYCY1iU-ABqfABGQQBfaOcXfAAJBEpKCHwAdRxKQhEFPWV84s8Aeh9faIBucTa6EBUQKToSJgBzFBAmAFtsPHxcTkwEEXwABUooSaY6AHlMZml8fPwSGAg5-AByACMye4qAWkwdvboXtzJGF6kFkxKMoukwZLd+nRxPwxBIOh0AZggTYWHR2BBiMh8KIQGRKjiBuoUWAJggwFsPvsjic6GBBL1huAABYQADuAEkWjA6HiwChyJQNPkgA -->
+
+<img src='/the-goal.webp' class="h-45dvh mx-auto" />
+
+<v-click>
+
+`_c(3)` ~= `useArray(3)`
+
+`Symbol.for('react.memo_cache_sentinel')` = `<empty-slot>`
+
+</v-click>
+
+<!-----
 
 ### React vs Compiler
 
@@ -57,7 +71,7 @@ compiler                      142           2809           7975          43268
 
 - кто у мамы такой пухляш?
 
-</v-click>
+</v-click>-->
 
 ---
 
@@ -66,7 +80,7 @@ compiler                      142           2809           7975          43268
 <div v-click class="grid grid-cols-2 gap-4 mt-4">
 
 <div>
-<img class="h-8dvh mx-auto" src="/babel.png" />
+<img class="h-10dvh mx-auto" src="/babel.png" />
 
 
 
@@ -79,7 +93,7 @@ log("Ты собака" + "я собака")
 
 
 
-<img src='/babel-ast.svg' class="h-30dvh" />
+<img src='/babel-ast.svg' class="h-45dvh" />
 
 
 </div>
@@ -93,9 +107,11 @@ log("Ты собака" + "я собака")
 
 | Your Code                                                              | JS                                                   |
 |------------------------------------------------------------------------|------------------------------------------------------|
-| `noCap`                                                                  | `true`                                                 |
 | `cap`                                                                    | `false`                                                |
-| `onGod`                                                                  | `true`                                                 |
+| `noCap`                                                                  | `true`                                                 |
+| `lowkey.stan` | `console.log`|
+| `.skibidi(clbk)` | `.filter(clbk)` |
+| `ghosted` | `return null` |
 
 ````md magic-move
 ```ts
@@ -103,7 +119,7 @@ lowkey.stan(
   [1, 2, 3, 4].skibidi(it => {
     if (it < 2) ghosted
     
-    toilet(true)
+    toilet(noCap)
   })
 )
 ```
@@ -111,6 +127,7 @@ lowkey.stan(
 console.log(
   [1, 2, 3, 4].filter((it) => {
     if (it < 2) return null;
+    
     return true;
   })
 );
@@ -129,21 +146,22 @@ console.log(
 
 ---
 
-TODO: image
+
+<img src="/pipeline.svg" class="w-80dvw mt-2dvh" />
 
 ---
 
 
 <Progress step="1" total="6" />
 
-### HIR
+### High-Level Intermediate Representation
 
 
 ```ts 
 log("Ты собака" + "я собака")
 ```
 
-TODO: add image
+<img v-click src="/HIR.excalidraw.svg" class="h-45dvh mx-auto" />
 
 ---
 
@@ -151,7 +169,12 @@ TODO: add image
 
 ### Пре оптимизация
 
+<img v-click.hide="+1" src="/pre-opts.excalidraw.svg" class="h-45dvh inset-x-0 mx-auto absolute" />
+
+<v-click>
+
 ````md magic-move
+
 ```ts
 const ALLOW_MULT = true;
 const MULT = 4;
@@ -184,7 +207,7 @@ const coolFunc = (value: number) => {
 	const str = "cool";
 	const mult = str.length * MULT;
 
-	const _ = str + 10;
+  const _ = str + 10;
 
 	let repeats: number;
 
@@ -234,8 +257,8 @@ const coolFunc = (value: number) => {
 ```ts
 const coolFunc = (value: number) => {
 	const mult = "cool".length * 4;
-
-	const _ = str + 10;
+	
+  const _ = "cool" + 10;
 
 	let repeats: number;
 
@@ -248,7 +271,7 @@ const coolFunc = (value: number) => {
 const coolFunc = (value: number) => {
 	const mult = 4 * 4;
 
-	const _ = str + 10;
+  const _ = "cool" + 10;
 
 	let repeats: number;
 
@@ -261,7 +284,7 @@ const coolFunc = (value: number) => {
 const coolFunc = (value: number) => {
 	const mult = 16;
 
-	const _ = str + 10;
+  const _ = "cool" + 10;
 
 	let repeats: number;
 
@@ -272,7 +295,7 @@ const coolFunc = (value: number) => {
 ```
 ```ts
 const coolFunc = (value: number) => {
-	const _ = str + 10;
+  const _ = "cool" + 10;
 
 	let repeats: number;
 
@@ -292,11 +315,27 @@ const coolFunc = (value: number) => {
 ```
 ````
 
+</v-click>
+
+<v-click>
+
+Теперь проще оптимизировать!
+
+</v-click>
+
 ---
 
 <Progress step="3" total="6" />
 
 ### Type & Effect inference
+
+<img src="/types-and-effects.excalidraw.svg" class="h-40dvh mx-auto" />
+
+<div v-click class="mt-4">
+
+Мы знаем, что мы вообще можем оптимизировать
+
+</div>
 
 ---
 
@@ -338,10 +377,11 @@ const Component = (props) => {
 ```ts
 const Component = (props) => {
   const arr = [] // array
-  // reactive write
   if (/* reactive read */ props.count > 10) {
+    // reactive write
     arr.push(10) 
   } else {
+    // reactive write
     arr.push(20)
   }
 }
@@ -349,7 +389,7 @@ const Component = (props) => {
 ```ts
 const Component = (props) => {
   const arr = [] // reactive array
-  // reactive write
+  // reactive block
   if (/* reactive read */ props.count > 10) {
     arr.push(10) 
   } else {
@@ -361,7 +401,7 @@ const Component = (props) => {
 const Component = (props) => {
   { // reactive scope
     const arr = [] // reactive array
-    // reactive write
+    // reactive block
     if (/* reactive read */ props.count > 10) {
       arr.push(10) 
     } else {
@@ -375,7 +415,7 @@ const Component = (props) => {
   let _arr 
   if ($$changed(props.count)) { // reactive scope
     const arr = [] // reactive array
-    // reactive write
+    // reactive block
     if (/* reactive read */ props.count > 10) {
       arr.push(10) 
     } else {
@@ -389,6 +429,12 @@ const Component = (props) => {
 }
 ```
 ````
+
+<v-click>
+
+Мы умеем мемоизировать
+
+</v-click>
 
 ---
 
@@ -406,10 +452,58 @@ const Component = (props) => {
 
 ### Codegen
 
+````md magic-move
+
+```ts
+let str: string
+if (counter === 0) {
+  str = "Zero is ok"
+} else if (counter === 1) {
+  str = "1 is ok"
+} else {
+  str = `${counter} is not ok`
+}
+```
+
+```ts
+let str;
+if (counter === 0) {
+  str = "Zero is ok";
+} else {
+  if (counter === 1) {
+    str = "1 is ok";
+  } else {
+    str = `${counter} is not ok`;
+  }
+}
+```
+
+````
+
 ---
 
 ### Итоги
 
+<img src="/pipeline-details.excalidraw.svg" class="h-52dvh mx-auto" />
+
+---
+layout: statement
 ---
 
-### Пошли чинить пример
+## Пошли чинить пример
+
+---
+
+### Pain points
+
+- чтение объектов по условию
+- HIR несовместимый код
+- компилятор делает что-то странное
+
+---
+
+## Q&A
+
+---
+
+## Моя телега
