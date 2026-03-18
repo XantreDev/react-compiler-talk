@@ -20,6 +20,14 @@ duration: 35min
 ## Искусство ухода за React Compiler
 
 ---
+
+## Йоу, я Валера
+
+- фронтенжу в стартапах
+- люблю закопаться
+- слежу за performance
+
+---
 class: "flex flex-col"
 ---
 
