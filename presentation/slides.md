@@ -43,7 +43,7 @@ class: "flex flex-col"
 
 ---
 
-### Во что React compiler компилирует?
+### Что вообще компилятор делает?
 
 <!-- https://playground.react.dev/#N4Igzg9grgTgxgUxALhAgHgBwjALgAgBMEAzAQygBsCSoA7OXASwjvwFkBPAQU0wAoAlPmAAdNvjiswBANpT6uBDAA0+MAlwBhaHSUwAuvgC8+KBoDKuMkv4AGQePH58MTbDYAeQkwBu+Vi1KJjgAa2NgIRMAPnVNHUVlfiYCY1iU-ABqfABGQQBfaOcXfAAJBEpKCHwAdRxKQhEFPWV84s8Aeh9faIBucTa6EBUQKToSJgBzFBAmAFtsPHxcTkwEEXwABUooSaY6AHlMZml8fPwSGAg5-AByACMye4qAWkwdvboXtzJGF6kFkxKMoukwZLd+nRxPwxBIOh0AZggTYWHR2BBiMh8KIQGRKjiBuoUWAJggwFsPvsjic6GBBL1huAABYQADuAEkWjA6HiwChyJQNPkgA -->
 
@@ -96,9 +96,10 @@ compiler                      142           2809           7975          43268
 log("Ты собака" + "я собака")
 ```
 
+- AST Tree
+
 
 </div>
-
 
 
 <img src='/babel-ast.svg' class="h-45dvh" />
