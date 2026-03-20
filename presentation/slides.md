@@ -17,7 +17,15 @@ comark: true
 duration: 40min
 ---
 
-## Искусство ухода за React Compiler
+# Искусство ухода за React Compiler
+
+<div class="flex">
+
+<img src="/the-art-of-react-compiler-maintenance.excalidraw.svg" class="h-30dvh mx-auto mt-4" />
+
+</div>
+
+
 
 ---
 
@@ -62,57 +70,192 @@ class: "flex flex-col"
 
 ---
 
-## Что ваще делает компилятор ?
+## О чём сёдня поговорим?
 
-<!-- TODO: rework
-https://playground.react.dev/#N4Igzg9grgTgxgUxALhAgHgBwjALgAgBMEAzAQygBsCSoA7OXASwjvwFkBPAQU0wAoAlPmAAdNvjiswBANpT6uBDAA0+MAlwBhaHSUwAuvgC8+KBoDKuMkv4AGQePH58MTbDYAeQkwBu+Vi1KJjgAa2NgIRMAPnVNHUVlfiYCY1iU-ABqfABGQQBfaOcXfAAJBEpKCHwAdRxKQhEFPWV84s8Aeh9faIBucTa6EBUQKToSJgBzFBAmAFtsPHxcTkwEEXwABUooSaY6AHlMZml8fPwSGAg5-AByACMye4qAWkwdvboXtzJGF6kFkxKMoukwZLd+nRxPwxBIOh0AZggTYWHR2BBiMh8KIQGRKjiBuoUWAJggwFsPvsjic6GBBL1huAABYQADuAEkWjA6HiwChyJQNPkgA -->
+<div class="mt-10">
 
-<div class="flex justify-center">
+<div class="grid grid-cols-2">
 
-<img src='/the-goal.webp' class="h-28dvh mx-auto" />
+- что мы ожидаем
+- внутреннее устройство компайлера
+- научимся ухаживать за компайлером
+
+<img src="/repo.svg" class="size-100" />
+
+</div>
+
+</div>
+
+<!-- TODO: add stickman -->
+
+---
+
+<div class="-mt-8">
+
+## Шо мы хотим от компайлера?
 
 </div>
 
 <v-click>
 
-`_c(3)` ~= `useArray(3)`
+````md magic-move
 
-`Symbol.for('react.memo_cache_sentinel')` = `<empty-slot>`
+```tsx 
+export default function MyApp() {
+  const [counter, setCounter] = useState(0)
+
+  return <div onClick={() => setCounter(it => it + 1)}>
+    Hello World {counter}
+  </div>;
+}
+```
+
+
+```tsx {all|2}
+export default function MyApp() {
+  const cache = useRef(new Array(3).fill(Symbol.for("react.memo_cache_sentinel"))).current;
+  
+  const [counter, setCounter] = useState(0)
+
+  return <div onClick={() => setCounter(it => it + 1)}>
+    Hello World {counter}
+  </div>;
+}
+```
+
+```tsx {all|1-3,6}
+const useMemoCache = (slots: number) => useRef(
+  new Array(slots).fill(Symbol.for("react.memo_cache_sentinel"))
+).current;
+
+export default function MyApp() {
+  const cache = useMemoCache(3);
+  
+  const [counter, setCounter] = useState(0)
+
+  return <div onClick={() => setCounter(it => it + 1)}>
+    Hello World {counter}
+  </div>;
+}
+```
+
+
+```tsx {all|1,4}
+import { c as _c } from "react/compiler-runtime"; // useMemoCache
+
+export default function MyApp() {
+  const $ = _c(3);
+  
+  const [counter, setCounter] = useState(0)
+  
+  return <div onClick={() => setCounter(it => it + 1)}>
+    Hello World {counter}
+  </div>;
+}
+```
+
+
+<!--
+```tsx
+import { c as _c } from "react/compiler-runtime"; // useMemoCache
+
+export default function MyApp() {
+  const $ = _c(3);
+  
+  const [counter, setCounter] = useState(0)
+  
+  let t0;
+  if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
+    t0 = () => setCounter(it => it + 1);
+    $[0] = t0;
+  } else {
+    t0 = $[0];
+  }
+  
+  return <div onClick={t0}>
+    Hello World {counter}
+  </div>;
+}
+```-->
+
+```tsx
+import { c as _c } from "react/compiler-runtime"; // useMemoCache
+export default function MyApp() {
+  const $ = _c(3);
+  const [counter, setCounter] = useState(0)
+  let t0;
+  if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
+    t0 = () => setCounter(it => it + 1);
+    $[0] = t0;
+  } else {
+    t0 = $[0];
+  }
+  let t1;
+  if ($[1] !== counter) {
+    t1 = (
+      <div onClick={t0}>
+        Hello World {counter}
+      </div>
+    );
+    $[1] = counter;
+    $[2] = t1;
+  } else {
+    t1 = $[2];
+  }
+  return t1;
+}
+```
+````
 
 </v-click>
 
-<!-----
+<div v-click class="absolute right-0 top-1/2 -translate-1/2 text-xl">
 
-### React vs Compiler
+Сложна! Как оно работает?
 
-<br />
+</div>
 
-<v-click>
-
-```sh
--------------------------------------------------------------------------------
-Project                     files          blank        comment           code
--------------------------------------------------------------------------------
-react                          50            346           1015           3265
-react-dom                      73            422            654           3921
-compiler                      142           2809           7975          43268
--------------------------------------------------------------------------------
-```
-
-<br />
-
-- кто у мамы такой пухляш?
-
-</v-click>-->
+<!-- TODO: rework
+https://playground.react.dev/#N4Igzg9grgTgxgUxALhAgHgBwjALgAgBMEAzAQygBsCSoA7OXASwjvwFkBPAQU0wAoAlPmAAdNvjiswBANpT6uBDAA0+MAlwBhaHSUwAuvgC8+KBoDKuMkv4AGQePH58MTbDYAeQkwBu+Vi1KJjgAa2NgIRMAPnVNHUVlfiYCY1iU-ABqfABGQQBfaOcXfAAJBEpKCHwAdRxKQhEFPWV84s8Aeh9faIBucTa6EBUQKToSJgBzFBAmAFtsPHxcTkwEEXwABUooSaY6AHlMZml8fPwSGAg5-AByACMye4qAWkwdvboXtzJGF6kFkxKMoukwZLd+nRxPwxBIOh0AZggTYWHR2BBiMh8KIQGRKjiBuoUWAJggwFsPvsjic6GBBL1huAABYQADuAEkWjA6HiwChyJQNPkgA -->
 
 ---
 
 ## А как компилировать?
 
-<div v-click class="grid grid-cols-2 gap-4 mt-4">
+<div class="absolute" v-click.hide="+1">
+
+<img class="h-10dvh mt-4" src="/babel.png" />
+
+Говорят, что React Compiler - это просто babel plugin
+
+</div>
+
+<v-click>
+
+<img src="/pipeline.excalidraw.svg" class="h-32dvh -ml-6" />
+
+</v-click>
+
+<v-click>
+
+<div class="absolute top-8 right-8">
+
+## The logo
+
+<img class="h-8dvh" src="/compiler-logo.excalidraw.svg" />
+
+</div>
+
+</v-click>
+
+
+---
+
+## Кто такой Babel?
+
+<div class="grid grid-cols-2 gap-4 mt-4">
 
 <div>
-<img class="h-10dvh mx-auto" src="/babel.png" />
 
 
 
@@ -120,17 +263,28 @@ compiler                      142           2809           7975          43268
 log("Ты собака" + "я собака")
 ```
 
+
+<div v-click="+2">
+
+- Создан для изменения кода
+- типов нету
+
+</div>
+
 </div>
 
 
-<img src='/babel-ast.excalidraw.svg' class="h-35dvh" />
+<img v-click src='/babel-ast.excalidraw.svg' class="h-35dvh" />
 
 
 </div>
 
----
 
-#### `babel-plugin-glowup-vibes`
+<!-----
+
+## JS для зумеров
+
+##### `babel-plugin-glowup-vibes`
 
 <div class="grid grid-cols-2 gap-4">
 
@@ -164,23 +318,12 @@ console.log(
 ```
 ````
 
-<v-click>
-
-- AST деревья
-- Создан для изменения и валидации кода
-- типов нету
-
-</v-click>
 
 </div>
 
----
-
-
-<img src="/pipeline.svg" class="w-80dvw mt-2dvh" />
+-->
 
 ---
-
 
 <Progress step="1" total="6" />
 
@@ -367,6 +510,11 @@ const coolFunc = (value: number) => {
 
 </div>
 
+
+---
+
+## Что такое реактивность?
+
 ---
 
 <Progress step="4" total="6" />
@@ -517,19 +665,54 @@ if (counter === 0) {
 <img src="/pipeline-details.excalidraw.svg" class="h-38dvh mx-auto" />
 
 ---
-layout: statement
+class: text-center 
 ---
 
-## Пошли чинить пример
+## Как ухаживать за React Compiler?
+
+<img src="/how-to-look-after-the-compiler.excalidraw.svg" class="h-28dvh mx-auto mt-8" />
 
 ---
+class: text-center 
+---
 
-## Pain points
+## Вы должны научиться слушать
+
+<img src="/how-to-listen.excalidraw.svg" class="h-28dvh mx-auto mt-8" />
+
+
+---
+class: text-center 
+---
+
+## Вы должны научиться читать мысли компилятора
+
+<img src="/how-to-read-thoughs.excalidraw.svg" class="h-30dvh mx-auto mt-8" />
+
+---
+class: text-center 
+---
+
+## Вы должны говорить о своих потребностях
+
+<img src="/communicate-your-demands.excalidraw.svg" class="h-30dvh mx-auto mt-8" />
+
+---
+class: text-center 
+---
+
+# Итог
+
+<img src="/ending.excalidraw.svg" class="h-35dvh mx-auto" />
+
+
+
+<!--## Pain points
 
 - чтение объектов по условию
 - HIR несовместимый код
 - компилятор делает что-то странное
-
+-->
 ---
 
 ## Q&A
@@ -537,3 +720,5 @@ layout: statement
 ---
 
 ## Моя телега
+
+<img src="/telegram.svg" class="w-30dvh mx-auto" />
