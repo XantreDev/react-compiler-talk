@@ -1,5 +1,5 @@
 ---
-theme: default
+theme: ./theme
 title: Искусство ухода за React Compiler
 info: |
   ## Разбираемся, как работает React Compiler, чтобы генерить быстрый код
@@ -10,11 +10,11 @@ drawings:
   persist: false
 # slide transition: https://sli.dev/guide/animations.html#slide-transitions
 transition: slide-left
-layout: statement
+layout: default
 # enable Comark Syntax: https://comark.dev/syntax/markdown
 comark: true
 # duration of the presentation
-duration: 35min
+duration: 40min
 ---
 
 ## Искусство ухода за React Compiler
@@ -187,7 +187,7 @@ log("Ты собака" + "я собака")
 
 <Progress step="2" total="6" />
 
-### Пре оптимизация
+## Пре оптимизация
 
 <img v-click.hide="+1" src="/pre-opts.excalidraw.svg" class="h-34dvh inset-x-0 mx-auto absolute" />
 
@@ -347,7 +347,7 @@ const coolFunc = (value: number) => {
 
 <Progress step="3" total="6" />
 
-### Type & Effect inference
+## Type & Effect inference
 
 <img src="/types-and-effects.excalidraw.svg" class="h-33dvh mx-auto" />
 
@@ -361,7 +361,7 @@ const coolFunc = (value: number) => {
 
 <Progress step="4" total="6" />
 
-### Reactivity detection
+## Reactivity detection
 
 ````md magic-move
 ```ts
@@ -460,7 +460,7 @@ const Component = (props) => {
 
 <Progress step="5" total="6" />
 
-### Optimization + validation
+## Optimization + validation
 
 - перетряхивание скоупов
 - удаление плохих оптимизаций
@@ -470,7 +470,7 @@ const Component = (props) => {
 
 <Progress step="6" total="6" />
 
-### Codegen
+## Codegen
 
 ````md magic-move
 
@@ -502,7 +502,7 @@ if (counter === 0) {
 
 ---
 
-### Итоги
+## Итоги
 
 <img src="/pipeline-details.excalidraw.svg" class="h-38dvh mx-auto" />
 
@@ -514,7 +514,7 @@ layout: statement
 
 ---
 
-### Pain points
+## Pain points
 
 - чтение объектов по условию
 - HIR несовместимый код
