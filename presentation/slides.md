@@ -31,23 +31,37 @@ duration: 35min
 class: "flex flex-col"
 ---
 
-### React Compiler - это крута!!!
+# React Compiler - это крута!!!
 
-<Compiler />
+<div class="flex">
+
+<img src="/great-comp-3.jpg" class="h-20dvh min-w-0 w-auto block rounded-[12px] border-2 border-purple" />
+
+</div>
+
+- React 17+
+- никаких `useMemo`, `useCallback`
+- быстро по дефолту
+- никаких `React.memo`
 
 ---
 
-### Что с деньгами?
+## Что с деньгами?
 
-<video src="/check-compiler.mp4" loop class="mt-2 h-55dvh mx-auto" autoPlay muted />
+<SlidevVideo src="/check-compiler.mp4" loop class="h-35dvh mx-auto" autoplay autoreset='slide' muted />
 
 ---
 
-### Что вообще компилятор делает?
+## Что ваще делает компилятор ?
 
-<!-- https://playground.react.dev/#N4Igzg9grgTgxgUxALhAgHgBwjALgAgBMEAzAQygBsCSoA7OXASwjvwFkBPAQU0wAoAlPmAAdNvjiswBANpT6uBDAA0+MAlwBhaHSUwAuvgC8+KBoDKuMkv4AGQePH58MTbDYAeQkwBu+Vi1KJjgAa2NgIRMAPnVNHUVlfiYCY1iU-ABqfABGQQBfaOcXfAAJBEpKCHwAdRxKQhEFPWV84s8Aeh9faIBucTa6EBUQKToSJgBzFBAmAFtsPHxcTkwEEXwABUooSaY6AHlMZml8fPwSGAg5-AByACMye4qAWkwdvboXtzJGF6kFkxKMoukwZLd+nRxPwxBIOh0AZggTYWHR2BBiMh8KIQGRKjiBuoUWAJggwFsPvsjic6GBBL1huAABYQADuAEkWjA6HiwChyJQNPkgA -->
+<!-- TODO: rework
+https://playground.react.dev/#N4Igzg9grgTgxgUxALhAgHgBwjALgAgBMEAzAQygBsCSoA7OXASwjvwFkBPAQU0wAoAlPmAAdNvjiswBANpT6uBDAA0+MAlwBhaHSUwAuvgC8+KBoDKuMkv4AGQePH58MTbDYAeQkwBu+Vi1KJjgAa2NgIRMAPnVNHUVlfiYCY1iU-ABqfABGQQBfaOcXfAAJBEpKCHwAdRxKQhEFPWV84s8Aeh9faIBucTa6EBUQKToSJgBzFBAmAFtsPHxcTkwEEXwABUooSaY6AHlMZml8fPwSGAg5-AByACMye4qAWkwdvboXtzJGF6kFkxKMoukwZLd+nRxPwxBIOh0AZggTYWHR2BBiMh8KIQGRKjiBuoUWAJggwFsPvsjic6GBBL1huAABYQADuAEkWjA6HiwChyJQNPkgA -->
 
-<img src='/the-goal.webp' class="h-45dvh mx-auto" />
+<div class="flex justify-center">
+
+<img src='/the-goal.webp' class="h-28dvh mx-auto" />
+
+</div>
 
 <v-click>
 
@@ -83,7 +97,7 @@ compiler                      142           2809           7975          43268
 
 ---
 
-### А как компилировать?
+## А как компилировать?
 
 <div v-click class="grid grid-cols-2 gap-4 mt-4">
 
@@ -96,13 +110,10 @@ compiler                      142           2809           7975          43268
 log("Ты собака" + "я собака")
 ```
 
-- AST Tree
-
-
 </div>
 
 
-<img src='/babel-ast.svg' class="h-45dvh" />
+<img src='/babel-ast.excalidraw.svg' class="h-35dvh" />
 
 
 </div>
@@ -163,14 +174,14 @@ console.log(
 
 <Progress step="1" total="6" />
 
-### High-Level Intermediate Representation
+## High-Level Intermediate Representation
 
 
 ```ts 
 log("Ты собака" + "я собака")
 ```
 
-<img v-click src="/HIR.excalidraw.svg" class="h-45dvh mx-auto" />
+<img v-click src="/HIR.excalidraw.svg" class="h-32dvh mx-auto" />
 
 ---
 
@@ -178,7 +189,7 @@ log("Ты собака" + "я собака")
 
 ### Пре оптимизация
 
-<img v-click.hide="+1" src="/pre-opts.excalidraw.svg" class="h-45dvh inset-x-0 mx-auto absolute" />
+<img v-click.hide="+1" src="/pre-opts.excalidraw.svg" class="h-34dvh inset-x-0 mx-auto absolute" />
 
 <v-click>
 
@@ -216,7 +227,7 @@ const coolFunc = (value: number) => {
 	const str = "cool";
 	const mult = str.length * MULT;
 
-  const _ = str + 10;
+	const _ = str + 10;
 
 	let repeats: number;
 
@@ -267,7 +278,7 @@ const coolFunc = (value: number) => {
 const coolFunc = (value: number) => {
 	const mult = "cool".length * 4;
 	
-  const _ = "cool" + 10;
+	const _ = "cool" + 10;
 
 	let repeats: number;
 
@@ -280,7 +291,7 @@ const coolFunc = (value: number) => {
 const coolFunc = (value: number) => {
 	const mult = 4 * 4;
 
-  const _ = "cool" + 10;
+	const _ = "cool" + 10;
 
 	let repeats: number;
 
@@ -293,7 +304,7 @@ const coolFunc = (value: number) => {
 const coolFunc = (value: number) => {
 	const mult = 16;
 
-  const _ = "cool" + 10;
+	const _ = "cool" + 10;
 
 	let repeats: number;
 
@@ -304,7 +315,7 @@ const coolFunc = (value: number) => {
 ```
 ```ts
 const coolFunc = (value: number) => {
-  const _ = "cool" + 10;
+	const _ = "cool" + 10;
 
 	let repeats: number;
 
@@ -338,7 +349,7 @@ const coolFunc = (value: number) => {
 
 ### Type & Effect inference
 
-<img src="/types-and-effects.excalidraw.svg" class="h-40dvh mx-auto" />
+<img src="/types-and-effects.excalidraw.svg" class="h-33dvh mx-auto" />
 
 <div v-click class="mt-4">
 
@@ -355,7 +366,7 @@ const coolFunc = (value: number) => {
 ````md magic-move
 ```ts
 const Component = (props) => {
-  const arr = []
+	const arr = []
   if (props.count > 10) {
     arr.push(10)
   } else {
@@ -493,7 +504,7 @@ if (counter === 0) {
 
 ### Итоги
 
-<img src="/pipeline-details.excalidraw.svg" class="h-52dvh mx-auto" />
+<img src="/pipeline-details.excalidraw.svg" class="h-38dvh mx-auto" />
 
 ---
 layout: statement
