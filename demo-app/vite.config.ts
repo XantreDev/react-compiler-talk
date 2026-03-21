@@ -10,9 +10,9 @@ export default defineConfig({
 				plugins: [
 					[
 						"babel-plugin-react-compiler",
-						{
-							panicThreshold: "all_errors",
-						},
+						// {
+						// 	panicThreshold: "all_errors",
+						// },
 					],
 				],
 			},
