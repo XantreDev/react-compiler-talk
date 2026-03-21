@@ -6,8 +6,8 @@ import {
 } from "@tanstack/react-router";
 import { ProductsPage } from "./routes/ProductsPage";
 import { RootLayout } from "./routes/RootLayout";
-import { SettingsPage } from "./routes/SettingsPage";
-import { SlowPage2 } from "./routes/SlowPage2";
+import { CommunicatePage } from "./routes/CommunicatePage";
+import { ReadThoughtsPage } from "./routes/ReadThoughtsPage";
 import { SlowPage } from "./routes/SlowPage";
 import { TinderProductsPage } from "./routes/TinderProductsPage";
 
@@ -41,25 +41,25 @@ const slowRoute = createRoute({
 	component: SlowPage,
 });
 
-const slowRoute2 = createRoute({
+const readThoughtsPage = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/slow2",
-	component: SlowPage2,
+	path: "/read-thoughts",
+	component: ReadThoughtsPage,
 });
 
-const settingsRoute = createRoute({
+const communicateRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/settings",
-	component: SettingsPage,
+	path: "/communicate",
+	component: CommunicatePage,
 });
 
 const routeTree = rootRoute.addChildren([
 	indexRoute,
 	productsRoute,
 	tinderProductsRoute,
-	settingsRoute,
+	communicateRoute,
 	slowRoute,
-	slowRoute2,
+	readThoughtsPage,
 ]);
 
 export const router = createRouter({

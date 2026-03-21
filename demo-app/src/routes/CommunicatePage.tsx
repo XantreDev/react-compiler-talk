@@ -33,7 +33,7 @@ const RocketScienceControl = (props: {
 };
 
 const IS_EXTENDED = import.meta.env.VITE_EXTENDED === "true";
-export function SettingsPage() {
+export function CommunicatePage() {
 	const controls = [
 		control("new-releases", "Push notifications on new product release"),
 		control("sound", "Sound enabled"),

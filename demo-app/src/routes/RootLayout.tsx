@@ -10,10 +10,10 @@ const route = (title: string, to: string) => ({
 
 const routes = [
 	route("Slow", "/slow"),
-	route("Slow2", "/slow2"),
-	route("Products", "/products"),
-	route("Tinder Products", "/tinder-products"),
-	route("Settings", "/settings"),
+	route("ReadThoughts", "/read-thoughts"),
+	route("Communicate", "/communicate"),
+	route("Misc. Analyze", "/tinder-products"),
+	route("Misc. Products", "/products"),
 ];
 
 export function RootLayout() {

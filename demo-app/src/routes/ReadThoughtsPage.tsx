@@ -16,7 +16,7 @@ const fetchNetwork = () =>
 		() => (Math.random() * 10_000) | 0,
 	);
 
-export const SlowPage2 = () => {
+export const ReadThoughtsPage = () => {
 	const [counter, setCounter] = useState(0);
 
 	const lock = useRef(false);
