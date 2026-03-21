@@ -17,20 +17,17 @@ const fetchNetwork = () =>
 	);
 
 export const SlowPage2 = () => {
-	"use cache";
-
 	const [counter, setCounter] = useState(0);
 
 	const lock = useRef(false);
 	const onClick = async () => {
 		if (lock.current) return;
-
-		lock.current = true;
-		fetchNetwork()
-			.then(setCounter)
-			.finally(() => {
-				lock.current = false;
-			});
+		try {
+			lock.current = true;
+			setCounter(await fetchNetwork());
+		} finally {
+			lock.current = false;
+		}
 	};
 
 	return (

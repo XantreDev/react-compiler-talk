@@ -1,11 +1,4 @@
-import {
-	useCallback,
-	useEffectEvent,
-	useLayoutEffect,
-	useReducer,
-	useRef,
-	useState,
-} from "react";
+import { useCallback, useReducer, useRef, useState } from "react";
 
 const waitMS = (ms: number) => {
 	const now = performance.now();
@@ -17,35 +10,35 @@ const fetchNetwork = () =>
 		() => (Math.random() * 10_000) | 0,
 	);
 
-// const useMutation = () => {
-// 	const statusRef = useRef("stale");
-// 	const [, bump] = useReducer((acc: number) => acc + 1, 0);
+const useMutation = () => {
+	const statusRef = useRef("stale");
+	const [, bump] = useReducer((acc: number) => acc + 1, 0);
 
-// 	return {
-// 		get status() {
-// 			return statusRef.current;
-// 		},
-// 		get loading() {
-// 			return statusRef.current === "pending";
-// 		},
-// 		mutate: useCallback(async () => {
-// 			if (statusRef.current === "pending")
-// 				throw new Error("concurrent exeception");
-// 			try {
-// 				statusRef.current = "pending";
-// 				bump();
-// 				const res = await fetchNetwork();
-// 				statusRef.current = "stale";
-// 				bump();
-// 				return res;
-// 			} catch (err) {
-// 				statusRef.current = "error";
-// 				bump();
-// 				throw err;
-// 			}
-// 		}, []),
-// 	};
-// };
+	return {
+		get status() {
+			return statusRef.current;
+		},
+		get loading() {
+			return statusRef.current === "pending";
+		},
+		mutate: useCallback(async () => {
+			if (statusRef.current === "pending")
+				throw new Error("concurrent exeception");
+			try {
+				statusRef.current = "pending";
+				bump();
+				const res = await fetchNetwork();
+				statusRef.current = "stale";
+				bump();
+				return res;
+			} catch (err) {
+				statusRef.current = "error";
+				bump();
+				throw err;
+			}
+		}, []),
+	};
+};
 
 const SlowComponent = (props: { onClick(): void }) => {
 	waitMS(400);
@@ -57,50 +50,37 @@ const SlowComponent = (props: { onClick(): void }) => {
 	);
 };
 
-const useStableCallback = (clbk) => {
-	const ref = useRef(clbk);
-
-	useLayoutEffect(() => {
-		ref.current = clbk;
-	}, [clbk]);
-
-	return useCallback((...args) => ref.current(...args), []);
-};
-
 export const SlowPage = () => {
 	const [counter, setCounter] = useState(0);
 
-	return null;
-	// const mutation = useMutation();
-	// const onClick = useStableCallback(async () => {
-	// 	const loading = mutation.loading;
-	// 	const mutate = mutation.mutate;
-	// 	if (loading) {
-	// 		console.log("loading -> skipping");
-	// 		return;
-	// 	}
-	// 	const res = await mutate();
-	// 	setCounter(res);
-	// });
+	const mutation = useMutation();
+	const onClick = async () => {
+		if (mutation.loading) {
+			console.log("loading -> skipping");
+			return;
+		}
+		const res = await mutation.mutate();
+		setCounter(res);
+	};
 
-	// return (
-	// 	<div className="flex flex-col gap-3">
-	// 		<div>Counter: {counter}</div>
-	// 		<div>is loading: {String(mutation.loading)}</div>
+	return (
+		<div className="flex flex-col gap-3">
+			<div>Counter: {counter}</div>
+			<div>is loading: {String(mutation.loading)}</div>
 
-	// 		<div className="flex gap-2">
-	// 			<button
-	// 				type="button"
-	// 				className="btn"
-	// 				onClick={() => {
-	// 					setCounter((it) => it + 1);
-	// 				}}
-	// 			>
-	// 				fast increment
-	// 			</button>
+			<div className="flex gap-2">
+				<button
+					type="button"
+					className="btn"
+					onClick={() => {
+						setCounter((it) => it + 1);
+					}}
+				>
+					fast increment
+				</button>
 
-	// 			<SlowComponent onClick={onClick} />
-	// 		</div>
-	// 	</div>
-	// );
+				<SlowComponent onClick={onClick} />
+			</div>
+		</div>
+	);
 };

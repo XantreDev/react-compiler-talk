@@ -16,15 +16,15 @@ const waitMS = (ms: number) => {
 	const now = performance.now();
 	while (performance.now() - now < ms) {}
 };
-const costlyCalculaiton = (src: string) => {
+const costlyCalculaiton = (props: ThumbProps) => {
 	waitMS(40);
 
-	return src;
+	return props.src;
 };
 
 const Thumbnail = (props: { title: string; src: string }) => (
 	<img
-		src={costlyCalculaiton(props.src)}
+		src={costlyCalculaiton(props)}
 		alt={props.title}
 		className="h-72 w-full rounded-2xl object-cover"
 		draggable={false}
