@@ -73,21 +73,29 @@ class: "flex flex-col"
 
 ## О чём сёдня поговорим?
 
-<div class="mt-10">
 
 <div class="grid grid-cols-2">
+
+<div class="mt-6">
 
 - что мы ожидаем
 - внутреннее устройство компайлера
 - научимся ухаживать за компайлером
 
-<img src="/repo.svg" class="size-100" />
+</div>
+
+<div class="flex flex-col items-center isolate">
+
+### Преза и прила
+
+<img src="/repo.svg" class="size-40dvh mt-[-4%] mb-[-7%] -z-10" />
+
+XantreDev/react-compiler-talk
+
 
 </div>
 
 </div>
-
-<!-- TODO: add stickman -->
 
 ---
 
@@ -393,6 +401,7 @@ step: 2
 const a = true
 const b = a
 ```
+
 - dead code elimination
 ```ts
 if (true) somethingExpensive()
@@ -804,7 +813,7 @@ step: 6
 
 ---
 
-## Итоги
+## Терь просуммируем
 
 <img src="/pipeline.excalidraw.svg" class="-ml-8 h-38dvh" />
 
@@ -814,6 +823,7 @@ class: text-center
 
 ## Back to business
 
+<img src="/slow-with-compiler.webp" class="h-30dvh mx-auto" />
 
 ---
 
@@ -827,21 +837,36 @@ class: text-center
 
 ## Вы должны научиться слушать
 
+
+<div class="grid grid-cols-1 grid-rows-1 *:row-span-full *:col-span-full isolate">
+
 <img src="/how-to-listen.excalidraw.svg" class="h-28dvh mx-auto mt-8" />
 
-# Читаем сгенеренный код
+<div v-click class="m-auto z-10 *:text-5xl!">
+
+## Читаем сгенеренный код
+
+</div>
+
+</div>
 
 ---
 class: text-center 
 ---
 
+
+
 ## Вы должны научиться читать мысли компилятора
+
+<div class="grid grid-cols-1 grid-rows-1 *:row-span-full *:col-span-full isolate">
 
 <img src="/how-to-read-thoughs.excalidraw.svg" class="h-30dvh mx-auto mt-8" />
 
-<div class="text-3xl">
+<div v-click class="m-auto z-10 *:text-5xl!">
 
-`panicThreshold: 'all_errors'`
+## panicThreshold: 'all_errors'
+
+</div>
 
 </div>
 
@@ -851,22 +876,33 @@ class: text-center
 
 ## Вы должны говорить о своих потребностях
 
+
+<div class="grid grid-cols-1 grid-rows-1 *:row-span-full *:col-span-full isolate">
+
 <img src="/communicate-your-demands.excalidraw.svg" class="h-30dvh mx-auto mt-8" />
 
 
-<v-click>
+<div v-click class="m-auto z-10 *:text-5xl!">
 
-# Помечаем чистые функции useMemo
+## помогаем компилятору с useMemo 
 
-</v-click>
+</div>
+
+</div>
 
 ---
-class: text-center 
----
+
+<div class="text-center">
 
 # Итог
 
-<img src="/ending.excalidraw.svg" class="h-35dvh mx-auto" />
+</div>
+
+- `panicThreshold: "all_errors"`
+- `useMemo` помогает компилятору
+- <span class="text-6xl underline">читаем код</span>
+
+<img src="/ending.excalidraw.svg" class="h-24dvh mt-2 mx-auto" />
 
 ---
 class: isolate
@@ -876,9 +912,9 @@ class: isolate
 
 <div class="mx-auto flex flex-col items-center">
 
-# Моя телега
+## Моя телега
 
-<img src="/telegram.svg" class="w-30dvh -z-10 -my-8" />
+<img src="/telegram.svg" class="w-30dvh -z-10 -my-[4%]" />
 
 Жаваскриптезёр (`@javastrippt`)
 
