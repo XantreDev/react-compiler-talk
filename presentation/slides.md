@@ -1,6 +1,7 @@
 ---
 theme: ./theme
 title: Искусство ухода за React Compiler
+colorSchema: dark
 info: |
   ## Разбираемся, как работает React Compiler, чтобы генерить быстрый код
 # apply UnoCSS classes to the current slide
@@ -324,27 +325,87 @@ console.log(
 -->
 
 ---
-
-<Progress step="1" total="6" />
+class: mt-2
+step: 1
+---
 
 ## High-Level Intermediate Representation
 
+<div class="relative w-full h-full flex">
 
-```ts 
-log("Ты собака" + "я собака")
-```
 
-<img v-click src="/HIR.excalidraw.svg" class="h-32dvh mx-auto" />
+<div v-click.hide="+1" class="absolute inset-0">
+
+- так наш код видит компйлер
+- крутое предстваление для оптимизации
+- инструкции
+
+<img src="/HIR.excalidraw.svg" class="h-28dvh mx-auto" />
+
+</div>
+
+<div class="m-auto">
+
+<img v-click src="/unopt-hir-node.excalidraw.svg" class="w-100" />
+
+- многа инструкций
+ 
+</div>
+
+</div>
 
 ---
+class: mt-2
+step: 2
+---
 
-<Progress step="2" total="6" />
+## Как выглядит процесс оптимизации?
 
-## Пре оптимизация
+```ts
+while (true) {
+  const optimizedHIR = optimiationPass(hir)
+  if (optimizedHIR.equals(hir)) {
+    break
+  }
+  hir = optimizedHIR
+}
+```
 
-<img v-click.hide="+1" src="/pre-opts.excalidraw.svg" class="h-34dvh inset-x-0 mx-auto absolute" />
+- check
+- optimize
+- repeat
 
-<v-click>
+
+---
+class: mt-2
+step: 2
+---
+
+## Фаза пре оптимизации
+
+<div class="flex flex-row">
+
+<div>
+Оптимизационные проходы:
+
+- constant propagation
+```ts
+const a = true
+const b = a
+```
+- dead code elimination
+```ts
+if (true) somethingExpensive()
+```
+
+<img src="/unopt-hir-node.excalidraw.svg" class="w-60 mt-4" />
+
+</div>
+
+
+<div v-click />
+
+<div v-click.after="-1"  class="ml-4 grow-1">
 
 ````md magic-move
 
@@ -488,36 +549,70 @@ const coolFunc = (value: number) => {
 ```
 ````
 
-</v-click>
-
-<v-click>
-
-Теперь проще оптимизировать!
-
-</v-click>
-
----
-
-<Progress step="3" total="6" />
-
-## Type & Effect inference
-
-<img src="/types-and-effects.excalidraw.svg" class="h-33dvh mx-auto" />
-
-<div v-click class="mt-4">
-
-Мы знаем, что мы вообще можем оптимизировать
+</div>
 
 </div>
 
+---
+class: mt-2
+step: 3
+---
+
+## Type & Effect inference
+
+<div class="grid grid-cols-1 grid-rows-1 *:row-span-full *:col-span-full">
+
+<img v-click.hide="+1" src="/types-and-effects.excalidraw.svg" class="h-33dvh mx-auto" />
+
+<div class="m-auto">
+
+<img v-click src="/hir-with-meta.excalidraw.svg" class="h-16dvh" />
+
+</div>
+
+</div>
 
 ---
+class: mt-2
+step: 4
+---
+
 
 ## Что такое реактивность?
 
+<div class="grid grid-cols-1 grid-rows-1 *:row-span-full *:col-span-full">
+
+<div v-click.hide="+1" class="mx-auto">
+  <img src="/rethinking-reactivity.webp" class="mt-10 rounded h-26dvh" />
+   <i class="block mt-2 text-center w-full text-xl">Rich Harris - Rethinking reactivity</i>
+</div>
+
+
+<div class="m-auto">
+<img v-click src="/reactivity.jpg" class="h-25dvh" />
+</div>
+
+</div>
+
+<!-- https://youtu.be/AdNJ3fydeao?si=S0340hrr5ImKZ0P9 -->
+
+---
+class: mt-2
+step: 4
 ---
 
-<Progress step="4" total="6" />
+## При чём тут React?
+
+<div class="max-w-160 text-center mt-35 mx-auto text-3xl">
+
+Если бы названия технолгий не врали, то React бы назывался Rerender
+
+</div>
+
+---
+class: mt-2
+step: 4
+---
 
 ## Reactivity detection
 
@@ -608,61 +703,91 @@ const Component = (props) => {
 ```
 ````
 
-<v-click>
-
-Мы умеем мемоизировать
-
-</v-click>
-
+---
+class: mt-2
+step: 4
 ---
 
-<Progress step="5" total="6" />
+## React compiler - реактивность больного человека
 
-## Optimization + validation
+<SlidevVideo src="/idiocracy-dumb.webm" muted autoplay loop class="mx-auto" />
+
+---
+class: mt-2
+step: 5
+---
+
+## Optimization
+
+<img src="/reactive-functions.excalidraw.svg" class="h-12dvh" />
 
 - перетряхивание скоупов
 - удаление плохих оптимизаций
+- ещё куча всего
 
+---
+class: mt-2
+step: 5
+---
+
+## Мерджинг веток
+
+````md magic-move
+```tsx
+let t0;
+if ($[0] !== props.values) {
+  t0 = props.values > 10 ? { key: props.values } : null;
+  $[0] = props.values;
+  $[1] = t0;
+} else {
+  t0 = $[1];
+}
+const obj = t0;
+let t1;
+if ($[2] !== props.values) {
+  t1 = props.values > 10 ? { key: props.values } : null;
+  $[2] = props.values;
+  $[3] = t1;
+} else {
+  t1 = $[3];
+}
+const obj2 = t1
+```
+```tsx
+let t0;
+let t1;
+if ($[0] !== props.values) {
+  t0 = props.values > 10 ? { key: props.values } : null;
+  $[0] = props.values;
+  $[1] = t0;
+  
+  t1 = props.values > 10 ? { key: props.values } : null;
+  $[2] = props.values;
+  $[3] = t1;
+} else {
+  t0 = $[1];
+  t1 = $[3];
+}
+const obj = t0;
+const obj2 = t1;
+```
+````
+
+---
+class: mt-2
+step: 6
 ---
 
 
-<Progress step="6" total="6" />
-
 ## Codegen
 
-````md magic-move
-
-```ts
-let str: string
-if (counter === 0) {
-  str = "Zero is ok"
-} else if (counter === 1) {
-  str = "1 is ok"
-} else {
-  str = `${counter} is not ok`
-}
-```
-
-```ts
-let str;
-if (counter === 0) {
-  str = "Zero is ok";
-} else {
-  if (counter === 1) {
-    str = "1 is ok";
-  } else {
-    str = `${counter} is not ok`;
-  }
-}
-```
-
-````
+<img src="/codegen.excalidraw.svg" class="h-16dvh mt-20 mx-auto" />
 
 ---
 
 ## Итоги
 
-<img src="/pipeline-details.excalidraw.svg" class="h-38dvh mx-auto" />
+<img src="/pipeline.excalidraw.svg" class="-ml-8 h-38dvh" />
 
 ---
 class: text-center 
