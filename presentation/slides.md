@@ -88,7 +88,7 @@ class: "flex flex-col"
 
 ### Преза и прила
 
-<img src="/repo.svg" class="size-40dvh mt-[-4%] mb-[-7%] -z-10" />
+<img src="/repo.svg" class="size-30dvh mt-[-4%] mb-[-7%] -z-10" />
 
 XantreDev/react-compiler-talk
 
