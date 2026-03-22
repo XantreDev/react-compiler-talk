@@ -337,7 +337,7 @@ step: 1
 <div v-click.hide="+1" class="absolute inset-0">
 
 - так наш код видит компйлер
-- крутое предстваление для оптимизации
+- крутое представление для оптимизации
 - инструкции
 
 <img src="/HIR.excalidraw.svg" class="h-28dvh mx-auto" />
@@ -629,8 +629,8 @@ const Component = (props) => {
 ```
 ```ts
 const Component = (props) => {
-  const arr = []
-  if (/* reactive read */ props.count > 10) {
+  const arr = [] // array
+  if (props.count > 10) {
     arr.push(10)
   } else {
     arr.push(20)
@@ -638,7 +638,16 @@ const Component = (props) => {
 }
 ```
 ```ts
-const Component = (props) => {
+const Component = (props /* reactive object */) => {
+  const arr = [] // array
+  if (props.count > 10) {
+    arr.push(10) 
+  } else {
+    arr.push(20)
+  }
+}
+```ts
+const Component = (props /* reactive object */) => {
   const arr = [] // array
   if (/* reactive read */ props.count > 10) {
     arr.push(10) 
@@ -648,7 +657,17 @@ const Component = (props) => {
 }
 ```
 ```ts
-const Component = (props) => {
+const Component = (props /* reactive object */) => {
+  const arr = [] // array
+  if (/* reactive read */ props.count > 10) {
+    arr.push(10) 
+  } else {
+    arr.push(20)
+  }
+}
+```
+```ts
+const Component = (props /* reactive object */) => {
   const arr = [] // array
   if (/* reactive read */ props.count > 10) {
     // reactive write
@@ -660,7 +679,7 @@ const Component = (props) => {
 }
 ```
 ```ts
-const Component = (props) => {
+const Component = (props /* reactive object */) => {
   const arr = [] // reactive array
   // reactive block
   if (/* reactive read */ props.count > 10) {
@@ -671,7 +690,7 @@ const Component = (props) => {
 }
 ```
 ```ts
-const Component = (props) => {
+const Component = (props /* reactive object */) => {
   { // reactive scope
     const arr = [] // reactive array
     // reactive block
@@ -684,7 +703,7 @@ const Component = (props) => {
 }
 ```
 ```ts
-const Component = (props) => {
+const Component = (props /* reactive object */) => {
   let _arr 
   if ($$changed(props.count)) { // reactive scope
     const arr = [] // reactive array
@@ -805,6 +824,12 @@ class: text-center
 
 <img src="/how-to-listen.excalidraw.svg" class="h-28dvh mx-auto mt-8" />
 
+<v-click>
+
+Читаем сгенеренный код
+
+</v-click>
+
 
 ---
 class: text-center 
@@ -814,6 +839,12 @@ class: text-center
 
 <img src="/how-to-read-thoughs.excalidraw.svg" class="h-30dvh mx-auto mt-8" />
 
+<v-click>
+
+`panicThreshold: 'all_errors'`
+
+</v-click>
+
 ---
 class: text-center 
 ---
@@ -821,6 +852,13 @@ class: text-center
 ## Вы должны говорить о своих потребностях
 
 <img src="/communicate-your-demands.excalidraw.svg" class="h-30dvh mx-auto mt-8" />
+
+
+<v-click>
+
+`useMemo`, `useCallback` всё ещё нужны
+
+</v-click>
 
 ---
 class: text-center 
