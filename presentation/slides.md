@@ -812,6 +812,11 @@ step: 6
 class: text-center 
 ---
 
+## Back to business
+
+
+---
+
 ## Как ухаживать за React Compiler?
 
 <img src="/how-to-look-after-the-compiler.excalidraw.svg" class="h-28dvh mx-auto mt-8" />
@@ -824,12 +829,7 @@ class: text-center
 
 <img src="/how-to-listen.excalidraw.svg" class="h-28dvh mx-auto mt-8" />
 
-<v-click>
-
-Читаем сгенеренный код
-
-</v-click>
-
+# Читаем сгенеренный код
 
 ---
 class: text-center 
@@ -839,11 +839,11 @@ class: text-center
 
 <img src="/how-to-read-thoughs.excalidraw.svg" class="h-30dvh mx-auto mt-8" />
 
-<v-click>
+<div class="text-3xl">
 
 `panicThreshold: 'all_errors'`
 
-</v-click>
+</div>
 
 ---
 class: text-center 
@@ -856,7 +856,7 @@ class: text-center
 
 <v-click>
 
-`useMemo`, `useCallback` всё ещё нужны
+# Помечаем чистые функции useMemo
 
 </v-click>
 
@@ -868,20 +868,18 @@ class: text-center
 
 <img src="/ending.excalidraw.svg" class="h-35dvh mx-auto" />
 
-
-
-<!--## Pain points
-
-- чтение объектов по условию
-- HIR несовместимый код
-- компилятор делает что-то странное
--->
+---
+class: isolate
 ---
 
 ## Q&A
 
----
+<div class="mx-auto flex flex-col items-center">
 
-## Моя телега
+# Моя телега
 
-<img src="/telegram.svg" class="w-30dvh mx-auto" />
+<img src="/telegram.svg" class="w-30dvh -z-10 -my-8" />
+
+Жаваскриптезёр (`@javastrippt`)
+
+</div>
