@@ -3,7 +3,7 @@ theme: ./theme
 title: Искусство ухода за React Compiler
 colorSchema: dark
 info: |
-  ## Разбираемся, как работает React Compiler, чтобы генерить быстрый код
+  Разбираемся, как работает React Compiler, чтобы генерить быстрый код
 # apply UnoCSS classes to the current slide
 class: text-center
 # https://sli.dev/features/drawing
@@ -25,8 +25,6 @@ duration: 40min
 <img src="/the-art-of-react-compiler-maintenance.excalidraw.svg" class="h-30dvh mx-auto mt-4" />
 
 </div>
-
-
 
 ---
 
@@ -149,9 +147,8 @@ export default function MyApp() {
 ```
 
 
-```tsx {all|1,4}
+```tsx {1,3}
 import { c as _c } from "react/compiler-runtime"; // useMemoCache
-
 export default function MyApp() {
   const $ = _c(3);
   
@@ -162,30 +159,6 @@ export default function MyApp() {
   </div>;
 }
 ```
-
-
-<!--
-```tsx
-import { c as _c } from "react/compiler-runtime"; // useMemoCache
-
-export default function MyApp() {
-  const $ = _c(3);
-  
-  const [counter, setCounter] = useState(0)
-  
-  let t0;
-  if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
-    t0 = () => setCounter(it => it + 1);
-    $[0] = t0;
-  } else {
-    t0 = $[0];
-  }
-  
-  return <div onClick={t0}>
-    Hello World {counter}
-  </div>;
-}
-```-->
 
 ```tsx
 import { c as _c } from "react/compiler-runtime"; // useMemoCache
