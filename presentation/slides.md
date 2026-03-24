@@ -565,7 +565,6 @@ step: 4
 ## Reactivity detection
 
 ````md magic-move
-
 ```ts
 const Component = (props) => {
   const arr = []
@@ -579,7 +578,7 @@ const Component = (props) => {
 
 ```ts
 const Component = (props /* reactive object */) => {
-  const arr = [] 
+  const arr = []
   if (props.count > 10) {
     arr.push(10)
   } else {
@@ -669,7 +668,6 @@ const Component = (props /* reactive object */) => {
   }
 }
 ```
-
 ````
 
 ---

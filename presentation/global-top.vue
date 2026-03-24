@@ -1,11 +1,11 @@
 <script setup>
-import { useSlideContext } from "@slidev/client";
-import { computed } from "vue";
-const { $slidev } = useSlideContext();
+import { useSlideContext } from "@slidev/client"
+import { computed } from "vue"
+const { $slidev } = useSlideContext()
 const currentStep = computed(() => {
   return $slidev.nav.slides[$slidev.nav.currentPage - 1].meta.slide?.frontmatter
-    ?.step;
-});
+    ?.step
+})
 </script>
 
 <template>

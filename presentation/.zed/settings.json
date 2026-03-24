@@ -2,8 +2,8 @@
   "formatter": "prettier",
   "languages": {
     "Markdown": {
-      "formatter": null,
+      "formatter": null
     },
-    "Vue.js": { "formatter": "prettier" },
-  },
+    "Vue.js": { "formatter": "prettier" }
+  }
 }
