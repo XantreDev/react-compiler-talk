@@ -1,3 +1,9 @@
 {
   "formatter": "prettier",
+  "languages": {
+    "Markdown": {
+      "formatter": null,
+    },
+    "Vue.js": { "formatter": "prettier" },
+  },
 }
