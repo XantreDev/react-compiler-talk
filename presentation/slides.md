@@ -11,18 +11,17 @@ drawings:
   persist: false
 # slide transition: https://sli.dev/guide/animations.html#slide-transitions
 transition: slide-left
-layout: default
 # enable Comark Syntax: https://comark.dev/syntax/markdown
 comark: true
 # duration of the presentation
 duration: 40min
+layout: image
+image: /intro.webp
 ---
 
+<div class="hidden"> 
+
 # Искусство ухода за React Compiler
-
-<div class="flex">
-
-<img src="/the-art-of-react-compiler-maintenance.excalidraw.svg" class="h-30dvh mx-auto mt-4" />
 
 </div>
 
