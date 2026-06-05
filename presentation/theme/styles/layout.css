@@ -1,7 +1,7 @@
 @font-face {
 	font-family: 'Excalifont';
 	src: local("Excalifont"),
-    url("/fonts/Excalifont.woff2") format("woff");
+    url("../fonts/Excalifont.woff2") format("woff");
 }
 
 :root {
